@@ -2,8 +2,6 @@
 
 # https://github.com/Raymo111/i3lock-color
 
-setxkbmap -layout us,ru,ua -option grp:alt_shift_toggle
-
 fg=c0caf5
 wrong=db4b4b
 date=7aa2f7
@@ -22,3 +20,4 @@ i3lock -n --force-clock -i $lock_image -e --indicator --radius=20 \
 --greeter-pos="650:930" --wrong-pos="650:970" --verif-pos="650:805" --date-color=$date --time-color=$date --greeter-color=$fg \
 --wrong-color=$wrong --verif-color=$verify --verif-pos="650:970" --pointer=default --refresh-rate=0 --pass-media-keys \
 --pass-volume-keys
+

@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Configuration: Directories
+MUSIC_DIR="/home/$USER/Music/yt-mp3/"
+VIDEO_DIR="/home/$USER/Video/yt-mp4/"
+mkdir -p "$MUSIC_DIR" "$VIDEO_DIR"
+
+# Output template: Title_Heightp.ext
+OUT_TEMPLATE="%(title)s_%(height)sp.%(ext)s"
+
+case "$1" in
+  mp3)
+    cd "$MUSIC_DIR" || exit
+    yt-dlp --no-overwrites -x --audio-format mp3 --audio-quality 0 \
+    --embed-thumbnail --add-metadata --windows-filenames \
+    --convert-thumbnails jpg \
+    --ppa "ThumbnailsConvertor+ffmpeg:-vf crop='ih:ih',scale=500:500" \
+    --exec "/usr/bin/yt-clean {}" \
+    -o "%(title)s.%(ext)s" "$2"
+    ;;
+  mp4)
+    cd "$VIDEO_DIR" || exit
+    URL="$3"
+    # Mandatory flags for editing compatibility and metadata
+    COMMON_FLAGS="--no-overwrites --embed-thumbnail --add-metadata --windows-filenames --merge-output-format mp4"
+    
+    case "$2" in
+      -l) # Low Quality: 360p (Fastest, most compatible)
+        yt-dlp $COMMON_FLAGS -f "bestvideo[height<=360]+bestaudio/best[height<=360]" -o "$OUT_TEMPLATE" "$URL" ;;
+      -m) # Medium Quality: 1080p (Full HD)
+        yt-dlp $COMMON_FLAGS -f "bestvideo[height<=1080]+bestaudio/best[height<=1080]" -o "$OUT_TEMPLATE" "$URL" ;;
+      -h) # High Quality: Absolute Maximum Resolution
+        yt-dlp $COMMON_FLAGS -f "bestvideo+bestaudio/best" -o "$OUT_TEMPLATE" "$URL" ;;
+      *) echo "Error: Use -l (360p), -m (1080p) or -h (Max)" ;;
+    esac
+    ;;
+  *)
+    echo "Usage: yt mp3 'URL' or yt mp4 [-l|-m|-h] 'URL'"
+    ;;
+esac

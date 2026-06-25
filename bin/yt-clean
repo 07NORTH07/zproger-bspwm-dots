@@ -1,0 +1,25 @@
+#!/usr/bin/python3
+import sys, os
+from unidecode import unidecode
+from mutagen.easyid3 import EasyID3
+
+if len(sys.argv) < 2 or not os.path.exists(sys.argv[1]):
+    sys.exit(1)
+
+file_path = sys.argv[1]
+dir_name = os.path.dirname(file_path)
+base_name, ext = os.path.splitext(os.path.basename(file_path))
+
+try:
+    audio = EasyID3(file_path)
+    for tag in ['title', 'artist']:
+        if tag in audio:
+            audio[tag] = [unidecode(audio[tag][0])]
+    audio.save()
+except: pass
+
+if not any('а' <= char <= 'я' or 'і' <= char <= 'ї' for char in base_name.lower()):
+    clean_base = unidecode(base_name)
+    new_name = os.path.join(dir_name, clean_base + ext)
+    if file_path != new_name:
+        os.rename(file_path, new_name)

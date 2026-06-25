@@ -11,9 +11,12 @@
     #notify-send "Lang: RU" -t 700
 #fi
 
+#!/bin/bash
+
 setxkbmap -layout us,ru,ua -option "grp:alt_shift_toggle"
 
-CURRENT=$(xkblayout-state print "%s")
+#CURRENT=$(xkblayout-state print "%s")
+CURRENT=$(/home/user/bin/xkblayout-state/xkblayout-state print "%s")
 
 case "$CURRENT" in
     us) notify-send "Lang: US" -t 700 ;;

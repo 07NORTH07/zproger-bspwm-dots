@@ -1,0 +1,1 @@
+user ALL=(root) NOPASSWD: /usr/bin/auto-cpufreq --force=powersave, /usr/bin/auto-cpufreq --force=performance, /usr/bin/auto-cpufreq --force=reset, /usr/bin/auto-cpufreq --turbo=never, /usr/bin/auto-cpufreq --turbo=auto

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-INTERNAL_MONITOR="eDP-1"
+INTERNAL_MONITOR="eDP"
 EXTERNAL_MONITOR="HDMI-1-1"
 
 monitor_add() {
